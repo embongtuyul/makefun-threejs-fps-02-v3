@@ -1,0 +1,134 @@
+/* SANDLINE — HUD and menu styling. Palette: sand, amber, rust, teal. */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: #14100c; }
+body { font-family: "Segoe UI", system-ui, -apple-system, sans-serif; color: #f2ead9; user-select: none; }
+#game { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+.hidden { display: none !important; }
+
+/* ---------- HUD ---------- */
+#hud { position: fixed; inset: 0; pointer-events: none; z-index: 5; }
+#crosshair { position: absolute; left: 50%; top: 50%; width: 0; height: 0; }
+#crosshair span { position: absolute; background: #ffe9b0; box-shadow: 0 0 3px #000; }
+.ch-dot { width: 3px; height: 3px; left: -1px; top: -1px; border-radius: 50%; }
+.ch-t, .ch-b { width: 2px; height: 9px; left: -1px; }
+.ch-l, .ch-r { width: 9px; height: 2px; top: -1px; }
+.ch-t { top: calc(-1 * var(--gap, 10px) - 9px); }
+.ch-b { top: var(--gap, 10px); }
+.ch-l { left: calc(-1 * var(--gap, 10px) - 9px); }
+.ch-r { left: var(--gap, 10px); }
+#hitmarker { position: absolute; left: 50%; top: 50%; width: 0; height: 0; opacity: 0; }
+#hitmarker span { position: absolute; width: 10px; height: 2px; background: #fff; box-shadow: 0 0 4px #000; }
+#hitmarker span:nth-child(1) { transform: translate(-14px, -12px) rotate(45deg); }
+#hitmarker span:nth-child(2) { transform: translate(4px, -12px) rotate(-45deg); }
+#hitmarker span:nth-child(3) { transform: translate(-14px, 10px) rotate(-45deg); }
+#hitmarker span:nth-child(4) { transform: translate(4px, 10px) rotate(45deg); }
+#hitmarker.kill span { background: #ff5a3c; }
+#damage-vignette { position: absolute; inset: 0; box-shadow: inset 0 0 90px 30px rgba(200, 30, 10, .55); opacity: 0; transition: opacity .12s; }
+#flash-vignette { position: absolute; inset: 0; background: #fff; opacity: 0; }
+
+#hud-top { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); display: flex; align-items: stretch; gap: 0; font-weight: 700; }
+.team-score { display: flex; align-items: center; gap: 10px; padding: 7px 16px; background: rgba(12, 10, 8, .72); border: 1px solid rgba(255, 233, 176, .25); }
+#team-jackals { border-right: none; border-radius: 6px 0 0 6px; color: #ffb648; }
+#team-falcons { border-left: none; border-radius: 0 6px 6px 0; color: #6fc3ff; }
+.team-name { font-size: 13px; letter-spacing: 2px; }
+.team-rounds { font-size: 22px; color: #fff; }
+.team-alive { font-size: 10px; letter-spacing: 3px; }
+#round-timer { padding: 7px 18px; background: #f2ead9; color: #14100c; font-size: 20px; font-variant-numeric: tabular-nums; }
+#round-timer.low { background: #ff5a3c; color: #fff; animation: blink .5s steps(2) infinite; }
+@keyframes blink { 50% { opacity: .55; } }
+
+#bomb-bar { position: absolute; top: 62px; left: 50%; transform: translateX(-50%); width: 340px; background: rgba(12, 10, 8, .75); border: 1px solid #ff5a3c; border-radius: 4px; overflow: hidden; }
+#bomb-fill { height: 8px; background: #ff5a3c; width: 100%; }
+#bomb-label { display: block; text-align: center; font-size: 12px; font-weight: 700; letter-spacing: 1px; color: #ffb0a0; padding: 3px 0 5px; }
+
+#minimap { position: absolute; top: 14px; right: 14px; border: 1px solid rgba(255, 233, 176, .35); border-radius: 4px; background: rgba(10, 8, 6, .6); }
+#location-label { position: absolute; top: 146px; right: 14px; width: 176px; text-align: center; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #ffe9b0; text-shadow: 0 1px 4px #000; }
+#killfeed { position: absolute; top: 14px; left: 14px; display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+.kill-line { background: rgba(12, 10, 8, .65); padding: 3px 10px; border-radius: 3px; }
+.kill-line .w { color: #ffb648; }
+.kill-line .hs { color: #ff5a3c; font-weight: 700; }
+#radio-feed { position: absolute; left: 14px; bottom: 150px; display: flex; flex-direction: column; gap: 3px; font-size: 12px; max-width: 320px; }
+.radio-line { background: rgba(20, 30, 16, .7); border-left: 3px solid #7ddb6a; padding: 3px 10px; border-radius: 2px; color: #d8f0c8; }
+.radio-line b { color: #7ddb6a; margin-right: 4px; }
+#round-banner { position: absolute; top: 22%; left: 50%; transform: translateX(-50%); text-align: center; font-size: 44px; font-weight: 800; letter-spacing: 6px; text-shadow: 0 3px 12px #000; }
+#round-banner small { display: block; font-size: 16px; letter-spacing: 2px; font-weight: 600; color: #ffe9b0; margin-top: 6px; }
+#round-banner.win { color: #7ddb6a; }
+#round-banner.lose { color: #ff5a3c; }
+#center-msg { position: absolute; top: 34%; left: 50%; transform: translateX(-50%); font-size: 20px; font-weight: 700; letter-spacing: 2px; text-shadow: 0 2px 8px #000; }
+
+#hud-bottom { position: absolute; bottom: 18px; left: 0; right: 0; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 26px; }
+#health-box { text-align: left; }
+#health-num { font-size: 46px; font-weight: 800; line-height: 1; text-shadow: 0 2px 8px #000; }
+#health-num.low { color: #ff5a3c; }
+#health-label { font-size: 11px; letter-spacing: 3px; color: #cbb98f; }
+#armor-num { font-size: 13px; color: #6fc3ff; font-weight: 700; margin-top: 2px; }
+#interact-prompt { position: absolute; left: 50%; bottom: 96px; transform: translateX(-50%); background: rgba(12, 10, 8, .8); border: 1px solid #ffe9b0; border-radius: 4px; padding: 8px 16px; font-size: 15px; font-weight: 700; text-align: center; }
+#interact-prompt .bar { height: 5px; background: #3a3226; margin-top: 6px; border-radius: 3px; overflow: hidden; }
+#interact-prompt .bar i { display: block; height: 100%; background: #7ddb6a; width: 0; }
+#weapon-box { text-align: right; }
+#ammo-mag { font-size: 46px; font-weight: 800; line-height: 1; display: inline; text-shadow: 0 2px 8px #000; }
+#ammo-mag.empty { color: #ff5a3c; }
+#ammo-reserve { font-size: 20px; color: #cbb98f; display: inline; }
+#weapon-name { font-size: 13px; letter-spacing: 2px; font-weight: 700; margin-top: 2px; }
+#fire-mode { font-size: 11px; color: #cbb98f; letter-spacing: 2px; }
+#money-box { position: absolute; bottom: 118px; right: 26px; font-size: 22px; font-weight: 800; color: #7ddb6a; text-shadow: 0 2px 6px #000; }
+#round-info { position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%); font-size: 12px; letter-spacing: 3px; color: #cbb98f; font-weight: 700; }
+#objective-line { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); font-size: 13px; color: #ffe9b0; text-shadow: 0 1px 4px #000; }
+#spectate-line { position: absolute; top: 50%; left: 50%; transform: translate(-50%, 60px); font-size: 15px; color: #ffe9b0; text-shadow: 0 1px 4px #000; }
+
+/* ---------- Overlays / menus ---------- */
+.overlay { position: fixed; inset: 0; z-index: 10; display: flex; align-items: center; justify-content: center; background: rgba(10, 8, 6, .55); backdrop-filter: blur(2px); }
+.panel { background: rgba(18, 15, 11, .94); border: 1px solid rgba(255, 233, 176, .3); border-radius: 10px; padding: 28px 34px; max-width: 640px; width: 92%; box-shadow: 0 20px 60px rgba(0, 0, 0, .6); }
+.panel h2 { font-size: 26px; letter-spacing: 4px; margin-bottom: 6px; }
+.panel-sub { color: #cbb98f; font-size: 14px; margin-bottom: 16px; }
+.panel-hint { color: #8f8064; font-size: 12px; margin-top: 14px; }
+.money-row { font-size: 20px; font-weight: 800; color: #7ddb6a; margin-bottom: 12px; }
+.btn-primary, .btn-secondary { pointer-events: auto; cursor: pointer; border: none; border-radius: 6px; font-family: inherit; font-weight: 800; letter-spacing: 2px; }
+.btn-primary { background: #e8912d; color: #14100c; font-size: 18px; padding: 14px 42px; margin: 6px 4px; }
+.btn-primary:hover { background: #ffb648; }
+.btn-secondary { background: transparent; color: #f2ead9; border: 1px solid rgba(255, 233, 176, .4); font-size: 14px; padding: 12px 26px; margin: 6px 4px; }
+.btn-secondary:hover { background: rgba(255, 233, 176, .12); }
+
+#buy-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.buy-item { pointer-events: auto; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 8px; background: rgba(255, 233, 176, .06); border: 1px solid rgba(255, 233, 176, .18); border-radius: 6px; padding: 10px 12px; }
+.buy-item:hover { border-color: #e8912d; background: rgba(232, 145, 45, .12); }
+.buy-item.owned { border-color: #7ddb6a; }
+.buy-item.cant { opacity: .45; cursor: not-allowed; }
+.buy-item .bi-key { font-size: 11px; color: #8f8064; border: 1px solid #8f8064; border-radius: 3px; padding: 1px 6px; }
+.buy-item .bi-name { font-weight: 700; font-size: 14px; flex: 1; }
+.buy-item .bi-desc { display: block; font-weight: 400; font-size: 11px; color: #cbb98f; }
+.buy-item .bi-price { font-weight: 800; color: #7ddb6a; }
+
+#main-menu { background: linear-gradient(180deg, rgba(10, 8, 6, .25) 0%, rgba(10, 8, 6, .72) 78%); align-items: flex-end; }
+.menu-inner { text-align: center; padding-bottom: 44px; max-width: 760px; }
+.menu-kicker { letter-spacing: 6px; font-size: 12px; color: #ffb648; font-weight: 700; }
+.menu-inner h1 { font-size: 88px; font-weight: 900; letter-spacing: 10px; line-height: 1; margin: 8px 0; text-shadow: 0 6px 30px rgba(0, 0, 0, .7); }
+.menu-inner h1 span { color: #e8912d; }
+.menu-tag { color: #e8dcc0; font-size: 16px; line-height: 1.5; margin-bottom: 20px; }
+.controls-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px 18px; margin: 22px auto 14px; max-width: 620px; text-align: left; font-size: 12px; }
+.controls-grid b { display: inline-block; min-width: 96px; color: #ffb648; }
+.controls-grid span { color: #cbb98f; }
+.menu-foot { color: #8f8064; font-size: 12px; letter-spacing: 1px; }
+
+#match-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 16px 0; text-align: center; }
+.stat b { display: block; font-size: 26px; color: #ffb648; }
+.stat span { font-size: 11px; letter-spacing: 2px; color: #cbb98f; }
+.stat.mvp { grid-column: 1 / -1; border-top: 1px solid rgba(255, 233, 176, .25); padding-top: 12px; }
+.stat.mvp b { color: #7ddb6a; }
+
+/* ---------- Scoreboard (TAB) ---------- */
+#scoreboard { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 560px; background: rgba(14, 12, 9, .94); border: 1px solid rgba(255, 233, 176, .35); border-radius: 10px; padding: 20px 26px; }
+.sb-title { font-size: 20px; font-weight: 800; letter-spacing: 4px; text-align: center; margin-bottom: 14px; }
+.sb-title span { display: block; font-size: 11px; letter-spacing: 2px; color: #cbb98f; margin-top: 4px; }
+.sb-team { margin-bottom: 12px; }
+.sb-team-head { font-size: 14px; font-weight: 800; letter-spacing: 2px; color: var(--tc); border-bottom: 1px solid var(--tc); padding-bottom: 4px; margin-bottom: 4px; }
+.sb-team-head b { float: right; font-size: 18px; color: #fff; }
+.sb-team table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.sb-team th { text-align: right; font-size: 10px; letter-spacing: 1px; color: #8f8064; padding: 3px 6px; }
+.sb-team th:first-child { text-align: left; }
+.sb-team td { text-align: right; padding: 3px 6px; font-variant-numeric: tabular-nums; }
+.sb-team td.sb-name { text-align: left; font-weight: 700; }
+.sb-team tr.me td { color: #ffb648; }
+.sb-team tr.dead td { opacity: .45; }
+.sb-mvp { text-align: center; font-size: 13px; font-weight: 700; color: #7ddb6a; margin-top: 8px; letter-spacing: 1px; }
+#loading { position: fixed; inset: 0; z-index: 20; display: flex; align-items: center; justify-content: center; background: #14100c; font-size: 20px; letter-spacing: 6px; font-weight: 800; color: #ffb648; }
